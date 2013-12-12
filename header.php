@@ -1,21 +1,14 @@
-<table>
-<tr>
-	<td width="90px">
-		<a class="cl"href="index.php">GENERAL  </a>
-	</td>
-	<td width="140px" >
-		<a class="cl" href="view_allprof.php">ALL PROFILES</a>
-	</td>
-<?php
-echo "<td width='100px'>";
-if (isset($_SESSION['role']) and $_SESSION['role'] == 'admin'){
-	echo '<a class="cl" href="add.php">ADD NEWS</a>';	
-}
-if (isset($_SESSION['role']) and $_SESSION['role'] == 'redactor'){
-	echo '<a class="cl" href="add.php">ADD NEWS</a>';
-}
-echo "</td>";
 
+<div class="hov">
+		<a class="hov"href="index.php?l=<?=$_SESSION['l'] ?>"> <?=$l['gen']?>  </a>
+		
+		<a class="hov" href="view_allprof.php?l=<?=$_SESSION['l'] ?>"><?=$l['allp']?></a>
+
+		
+	
+<?php
+if (isset($_SESSION['role']) and ($_SESSION['role'] == 'admin' or $_SESSION["role"] == 'redactor')){
+	echo '<a class="hov" href="add.php?l='.$_SESSION['l'].'">'.$l['addn'].'</a></div>';	
+}
 ?>
-</tr>
-</table>
+</div>

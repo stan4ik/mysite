@@ -34,17 +34,17 @@ unset($_SESSION['id']);
 session_destroy();
 }
 
-if(isset($_SESSION['name'],$id))
-{
-echo ' <table class="f">
-	<tr><td><a  class="f" href="view_prof.php?id='.$id.'" target="_self">'.$_SESSION["name"].'</a></td></tr>
-	<tr><td><form class="f" method="post" action=""/>
-	<input type="submit" name="logout" value="logout"/>
-	</form></td></tr>
-	</table>';
+if(isset($_SESSION['name'],$id)){
+include('aut.php');
 }
 else{
-include('form.php');
+	echo '
+<form  class="f" method="post" action="">
+<input type="text" name="e_login" placeholder="login" required /><br>
+<input type="password" name="e_password" placeholder="password" required /><br>
+<input type="submit" name="enter" value="'.$l['login'].'" required/>
+<a href="reg.php" taget="_blank">'.$l['re'].'</a>
+</form>' ;
 
 }
 ?>

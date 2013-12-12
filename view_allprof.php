@@ -1,20 +1,36 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<?php session_start()?>
-<html>
-<head>
+<?php session_start();
+
+if (empty($_GET['l'])){
+    $_SESSION['l'] = 'eng';
+}
+else{
+switch ($_GET['l']) {
+    case 'ua': $_SESSION['l'] = $_GET['l'];
+        break;
+    case 'eng': $_SESSION['l'] = $_GET['l'];
+        break;
+}
+}
+if ($_SESSION['l'] == 'eng'){
+echo '
+    <a href="view_allprof.php?l=ua"><img src="img/ua.png" width="14" height="10"></a>';
+}
+else {
+    echo '
+    <a href="view_allprof.php?l=eng"><img src="img/en.png" width="14" height="10"></a>';
+}
+include("lang/".$_SESSION['l'].".php"); ?>
 <style type="text/css">
 	<? include "style.css" ?>
 </style>
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
-<title>Profile</title>
-</head>
 
-<body>
+<title><?=$l['allprof']?></title>
+
 
 <?php
-include ("header.php");
-include ("aut.php");
 include ("db.php");
+include ("aut.php");
+include ("header.php");
 $result = $db->prepare("SELECT * FROM users");
 $result->execute();
 $myrow = $result->fetch(PDO::FETCH_ASSOC);
@@ -27,17 +43,17 @@ do{
             <img class="img" alt=" " src='.$myrow["avatar"].'>
             </td>    
 		</tr>
-        <tr class="t" >
+        <tr>
             <td> 
-            Username: <a href="view_prof.php?id='.$myrow["id"].'">'.$myrow["username"].'</a><br> 
-            Date regestration: '.$myrow["date"].'<br>
-            Last login: '.$myrow["ldate"].'<br>
+            '.$l['uname'].': <a href="view_prof.php?id='.$myrow["id"].'&l='.$_SESSION['l'].'">'.$myrow["username"].'</a><br> 
+            '.$l['dreg'].': '.$myrow["date"].'<br>
+            '.$l['dlog'].': '.$myrow["ldate"].'<br>
             </td>
         </tr>
              </table>';
              if (isset($_SESSION['role']) and $_SESSION['role'] == 'admin'){
-    echo '<a href="redact_reg.php?id='.$myrow["id"].'">Redact profile</a>  
-         <a href="delete_prof.php?id='.$myrow["id"].'">Delete profile</a>';
+    echo '<a href="redact_reg.php?l='.$_SESSION['l'].'&id='.$myrow["id"].'">'.$l['chp'].'</a>  
+          <a href="delete_prof.php?l='.$_SESSION['l'].'&id='.$myrow["id"].'">'.$l['delp'].'</a>';
      }
 }
 while ($myrow = $result->fetch(PDO::FETCH_ASSOC));
